@@ -3,7 +3,7 @@ import sys
 def full_name(first_name, last_name):
     """returns the full name"""
     name = f"{first_name.capitalize()}{last_name.capitalize()}"
-    # Uncomment the line below and run code to debugg
+    # Uncomment the line below and run code to debug
     # breakpoint()
     name = f"{first_name.capitalize()} {last_name.capitalize()}".strip()
     return name

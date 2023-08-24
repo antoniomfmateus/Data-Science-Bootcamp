@@ -6,6 +6,10 @@ RATES = {
     }
 
 def convert(amount, currency):
+    """returns the converted amount in the given currency
+    amount is a tuple like (100, "EUR")
+    currency is a string
+    """
     for key, value in RATES.items():
         if amount[1] == key[0:3] and currency == "EUR":
             return round(value * amount[0])

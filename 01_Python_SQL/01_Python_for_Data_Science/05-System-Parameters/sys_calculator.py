@@ -1,3 +1,21 @@
+"""
+Python scripts can read arguments passed in the command line.
+
+This is a simple calculator for **integers** made in 5 different ways. 
+
+It should work like this:
+
+(on the terminal)
+```bash
+python calc.py 4 + 5
+# => 9
+python calc.py 2 \* 6
+# => 12
+python calc.py 3 - 9
+# => -6
+```
+"""
+
 import sys
 import operator
 
@@ -48,9 +66,8 @@ def main5():
 
 if __name__ == "__main__":
     print(main())
-    
-    # print(main2())
-    # print(main3())
-    # print(main4())
-    # print(main5())
+    print(main2())
+    print(main3())
+    print(main4())
+    print(main5())
     
