@@ -1,3 +1,8 @@
+import sqlite3
+
+conn = sqlite3.connect('data/ecommerce.sqlite')
+db = conn.cursor()
+
 def order_rank_per_customer(db):
     query = """
         SELECT

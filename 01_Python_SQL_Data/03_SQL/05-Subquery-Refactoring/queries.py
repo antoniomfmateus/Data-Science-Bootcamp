@@ -1,3 +1,8 @@
+import sqlite3
+
+conn = sqlite3.connect('data/ecommerce.sqlite')
+db = conn.cursor()
+
 def get_average_purchase(db):
     # return the average amount spent per order for each customer ordered by customer ID
     request = '''

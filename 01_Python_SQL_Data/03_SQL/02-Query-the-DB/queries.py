@@ -1,3 +1,8 @@
+import sqlite3
+
+conn = sqlite3.connect('data/ecommerce.sqlite')
+db = conn.cursor()
+
 def query_orders(db):
     # return a list of orders displaying each column
     query = '''

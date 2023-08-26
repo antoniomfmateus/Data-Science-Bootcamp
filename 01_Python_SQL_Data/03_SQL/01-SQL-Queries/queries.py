@@ -1,3 +1,8 @@
+import sqlite3
+
+conn = sqlite3.connect('data/movies.sqlite')
+db = conn.cursor()
+
 def detailed_movies(db):
     '''return the list of movies with their genres and director name'''
     query = """

@@ -1,4 +1,10 @@
+import sqlite3
+
+conn = sqlite3.connect('data/movies.sqlite')
+db = conn.cursor()
+
 def directors_count(db):
+    
     # return the number of directors contained in the database
     query = """
         SELECT COUNT(*)

@@ -1,3 +1,8 @@
+import sqlite3
+
+conn = sqlite3.connect('data/ecommerce.sqlite')
+db = conn.cursor()
+
 def detailed_orders(db):
     '''return a list of all orders (order_id, customer.contact_name,
     employee.firstname) ordered by order_id'''
