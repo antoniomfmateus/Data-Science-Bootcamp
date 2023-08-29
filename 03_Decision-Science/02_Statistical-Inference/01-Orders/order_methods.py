@@ -19,8 +19,6 @@ class Order:
         [order_id, wait_time, expected_wait_time, delay_vs_expected, order_status]
         and filters out non-delivered orders unless specified
         """
-        # Hint: Within this instance method, you have access to the instance of the class Order in the variable self, as well as all its attributes
-        # make sure to create a copy rather than a "view"
         orders = self.data['orders'].copy()
 
         # filter delivered orders
@@ -42,7 +40,7 @@ class Order:
 
         def handle_delay(x):
             # We only want to keep delay where wait_time is longer than expected (not the other way around)
-            # This is what drives customer dissatisfaction!
+            # This is what drives customer dissatisfaction
             if x > 0:
                 return x
             else:
@@ -136,7 +134,6 @@ class Order:
 
         return price_freight
 
-    # Optional
     def get_distance_seller_customer(self):
         """
         Returns a DataFrame with:
@@ -217,7 +214,6 @@ class Order:
         'number_of_products', 'number_of_sellers', 'price', 'freight_value',
         'distance_seller_customer']
         """
-        # Hint: make sure to re-use your instance methods defined above
         training_set =\
             self.get_wait_time(is_delivered)\
                 .merge(
