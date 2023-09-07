@@ -34,7 +34,7 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     df = df[df["pickup_longitude"].between(left=-74.3, right=-73.7)]
     df = df[df["dropoff_longitude"].between(left=-74.3, right=-73.7)]
 
-    print("✅ data cleaned")
+    print(" data cleaned")
 
     return df
 
@@ -62,7 +62,7 @@ def get_data_with_cache(
         if df.shape[0] > 1:
             df.to_csv(cache_path, header=data_has_header, index=False)
 
-    print(f"✅ Data loaded, with shape {df.shape}")
+    print(f" Data loaded, with shape {df.shape}")
 
     return df
 
@@ -84,7 +84,7 @@ def load_data_to_bq(
 
     # Load data onto full_table_name
 
-    # 🎯 HINT for "*** TypeError: expected bytes, int found":
+    #  HINT for "*** TypeError: expected bytes, int found":
     # After preprocessing the data, your original column names are gone (print it to check),
     # so ensure that your column names are *strings* that start with either 
     # a *letter* or an *underscore*, as BQ does not accept anything else
@@ -105,4 +105,4 @@ def load_data_to_bq(
     job = client.load_table_from_dataframe(data, full_table_name, job_config=job_config)
     result = job.result()  # wait for the job to complete
 
-    print(f"✅ Data saved to bigquery, with shape {data.shape}")
+    print(f" Data saved to bigquery, with shape {data.shape}")

@@ -23,7 +23,7 @@ def save_results(params: dict, metrics: dict) -> None:
             mlflow.log_params(params)
         if metrics is not None:
             mlflow.log_metrics(metrics)
-        print("✅ Results saved on MLflow")
+        print(" Results saved on MLflow")
 
     timestamp = time.strftime("%Y%m%d-%H%M%S")
 
@@ -39,7 +39,7 @@ def save_results(params: dict, metrics: dict) -> None:
         with open(metrics_path, "wb") as file:
             pickle.dump(metrics, file)
 
-    print("✅ Results saved locally")
+    print(" Results saved locally")
 
 
 def save_model(model: keras.Model = None) -> None:
@@ -55,7 +55,7 @@ def save_model(model: keras.Model = None) -> None:
     model_path = os.path.join(LOCAL_REGISTRY_PATH, "models", f"{timestamp}.h5")
     model.save(model_path)
 
-    print("✅ Model saved locally")
+    print(" Model saved locally")
 
     if MODEL_TARGET == "gcs":
 
@@ -65,7 +65,7 @@ def save_model(model: keras.Model = None) -> None:
         blob = bucket.blob(f"models/{model_filename}")
         blob.upload_from_filename(model_path)
 
-        print("✅ Model saved to GCS")
+        print(" Model saved to GCS")
 
         return None
 
@@ -76,7 +76,7 @@ def save_model(model: keras.Model = None) -> None:
             registered_model_name=MLFLOW_MODEL_NAME
         )
 
-        print("✅ Model saved to MLflow")
+        print(" Model saved to MLflow")
 
         return None
 
@@ -110,7 +110,7 @@ def load_model(stage="Production") -> keras.Model:
 
         latest_model = keras.models.load_model(most_recent_model_path_on_disk)
 
-        print("✅ Model loaded from local disk")
+        print(" Model loaded from local disk")
 
         return latest_model
 
@@ -127,11 +127,11 @@ def load_model(stage="Production") -> keras.Model:
 
             latest_model = keras.models.load_model(latest_model_path_to_save)
 
-            print("✅ Latest model downloaded from cloud storage")
+            print(" Latest model downloaded from cloud storage")
 
             return latest_model
         except:
-            print(f"\n❌ No model found in GCS bucket {BUCKET_NAME}")
+            print(f"\n No model found in GCS bucket {BUCKET_NAME}")
 
             return None
 
@@ -149,13 +149,13 @@ def load_model(stage="Production") -> keras.Model:
 
             assert model_uri is not None
         except:
-            print(f"\n❌ No model found with name {MLFLOW_MODEL_NAME} in stage {stage}")
+            print(f"\n No model found with name {MLFLOW_MODEL_NAME} in stage {stage}")
 
             return None
 
         model = mlflow.tensorflow.load_model(model_uri=model_uri)
 
-        print("✅ Model loaded from MLflow")
+        print(" Model loaded from MLflow")
         return model
     else:
         return None
@@ -174,7 +174,7 @@ def mlflow_transition_model(current_stage: str, new_stage: str) -> None:
     version = client.get_latest_versions(name=MLFLOW_MODEL_NAME, stages=[current_stage])
 
     if not version:
-        print(f"\n❌ No model found with name {MLFLOW_MODEL_NAME} in stage {current_stage}")
+        print(f"\n No model found with name {MLFLOW_MODEL_NAME} in stage {current_stage}")
         return None
 
     client.transition_model_version_stage(
@@ -184,7 +184,7 @@ def mlflow_transition_model(current_stage: str, new_stage: str) -> None:
         archive_existing_versions=True
     )
 
-    print(f"✅ Model {MLFLOW_MODEL_NAME} (version {version[0].version}) transitioned from {current_stage} to {new_stage}")
+    print(f" Model {MLFLOW_MODEL_NAME} (version {version[0].version}) transitioned from {current_stage} to {new_stage}")
 
     return None
 
@@ -207,7 +207,7 @@ def mlflow_run(func):
             mlflow.tensorflow.autolog()
             results = func(*args, **kwargs)
 
-        print("✅ mlflow_run auto-log done")
+        print(" mlflow_run auto-log done")
 
         return results
     return wrapper

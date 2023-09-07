@@ -19,7 +19,7 @@ def preprocess(min_date:str = '2009-01-01', max_date:str = '2015-01-01') -> None
     - No need to cache processed data as CSV (it will be cached when queried back from BQ during training)
     """
 
-    print(Fore.MAGENTA + "\n ⭐️ Use case: preprocess" + Style.RESET_ALL)
+    print(Fore.MAGENTA + "\n  Use case: preprocess" + Style.RESET_ALL)
 
     # Query raw data from BigQuery using `get_data_with_cache`
     min_date = parse(min_date).strftime('%Y-%m-%d') # e.g '2009-01-01'
@@ -65,7 +65,7 @@ def preprocess(min_date:str = '2009-01-01', max_date:str = '2015-01-01') -> None
         truncate=True
     )
 
-    print("✅ preprocess() done \n")
+    print(" preprocess() done \n")
 def train(
         min_date:str = '2009-01-01',
         max_date:str = '2015-01-01',
@@ -83,7 +83,7 @@ def train(
     Return val_mae as a float
     """
 
-    print(Fore.MAGENTA + "\n⭐️ Use case: train" + Style.RESET_ALL)
+    print(Fore.MAGENTA + "\n Use case: train" + Style.RESET_ALL)
     print(Fore.BLUE + "\nLoading preprocessed validation data..." + Style.RESET_ALL)
 
     min_date = parse(min_date).strftime('%Y-%m-%d') # e.g '2009-01-01'
@@ -109,7 +109,7 @@ def train(
     )
 
     if data_processed.shape[0] < 10:
-        print("❌ Not enough processed data retrieved to train on")
+        print(" Not enough processed data retrieved to train on")
         return None
 
     # Create (X_train_processed, y_train, X_val_processed, y_val)
@@ -152,7 +152,7 @@ def train(
     # Save model weight on the hard drive (and optionally on GCS too!)
     save_model(model=model)
 
-    print("✅ train() done \n")
+    print(" train() done \n")
 
     return val_mae
 
@@ -165,7 +165,7 @@ def evaluate(
     Evaluate the performance of the latest production model on processed data
     Return MAE as a float
     """
-    print(Fore.MAGENTA + "\n⭐️ Use case: evaluate" + Style.RESET_ALL)
+    print(Fore.MAGENTA + "\n Use case: evaluate" + Style.RESET_ALL)
 
     model = load_model(stage=stage)
     assert model is not None
@@ -189,7 +189,7 @@ def evaluate(
     )
 
     if data_processed.shape[0] == 0:
-        print("❌ No data to evaluate on")
+        print(" No data to evaluate on")
         return None
 
     data_processed = data_processed.to_numpy()
@@ -208,7 +208,7 @@ def evaluate(
 
     save_results(params=params, metrics=metrics_dict)
 
-    print("✅ evaluate() done \n")
+    print(" evaluate() done \n")
 
     return mae
 
@@ -218,7 +218,7 @@ def pred(X_pred: pd.DataFrame = None) -> np.ndarray:
     Make a prediction using the latest trained model
     """
 
-    print("\n⭐️ Use case: predict")
+    print("\n Use case: predict")
 
     if X_pred is None:
         X_pred = pd.DataFrame(dict(
@@ -236,7 +236,7 @@ def pred(X_pred: pd.DataFrame = None) -> np.ndarray:
     X_processed = preprocess_features(X_pred)
     y_pred = model.predict(X_processed)
 
-    print("\n✅ prediction done: ", y_pred, y_pred.shape, "\n")
+    print("\n prediction done: ", y_pred, y_pred.shape, "\n")
     return y_pred
 
 

@@ -22,7 +22,7 @@ def preprocess_and_train(min_date:str = '2009-01-01', max_date:str = '2015-01-01
     - Compute & save a validation performance metric
     """
 
-    print(Fore.MAGENTA + "\n ⭐️ Use case: preprocess_and_train" + Style.RESET_ALL)
+    print(Fore.MAGENTA + "\n  Use case: preprocess_and_train" + Style.RESET_ALL)
 
     min_date = parse(min_date).strftime('%Y-%m-%d') # e.g '2009-01-01'
     max_date = parse(max_date).strftime('%Y-%m-%d') # e.g '2009-01-01'
@@ -106,7 +106,7 @@ def preprocess_and_train(min_date:str = '2009-01-01', max_date:str = '2015-01-01
     save_results(params=params, metrics=dict(mae=val_mae))
     save_model(model=model)
 
-    print("✅ preprocess_and_train() done")
+    print(" preprocess_and_train() done")
 
 def preprocess(min_date: str = '2009-01-01', max_date: str = '2015-01-01') -> None:
     """
@@ -116,7 +116,7 @@ def preprocess(min_date: str = '2009-01-01', max_date: str = '2015-01-01') -> No
     - If raw data already exists on your local disk, use `pd.read_csv(..., chunksize=CHUNK_SIZE)`
     - If raw data does NOT yet exist, use `bigquery.Client().query().result().to_dataframe_iterable()`
     """
-    print(Fore.MAGENTA + "\n ⭐️ Use case: preprocess by batch" + Style.RESET_ALL)
+    print(Fore.MAGENTA + "\n  Use case: preprocess by batch" + Style.RESET_ALL)
 
     min_date = parse(min_date).strftime('%Y-%m-%d') # e.g '2009-01-01'
     max_date = parse(max_date).strftime('%Y-%m-%d') # e.g '2009-01-01'
@@ -145,7 +145,7 @@ def preprocess(min_date: str = '2009-01-01', max_date: str = '2015-01-01') -> No
         print("Get a DataFrame iterable from querying the BigQuery server...")
         chunks = None
 
-        # 🎯 HINT: `bigquery.Client(...).query(...).result(page_size=...).to_dataframe_iterable()`
+        #  HINT: `bigquery.Client(...).query(...).result(page_size=...).to_dataframe_iterable()`
         client = bigquery.Client(project=GCP_PROJECT)
 
         query_job = client.query(query)
@@ -160,7 +160,7 @@ def preprocess(min_date: str = '2009-01-01', max_date: str = '2015-01-01') -> No
         chunk_clean = clean_data(chunk)
 
         # Create chunk_processed
-        # 🎯 HINT: create (`X_chunk`, `y_chunk`), process only `X_processed_chunk`, then concatenate (X_processed_chunk, y_chunk)
+        #  HINT: create (`X_chunk`, `y_chunk`), process only `X_processed_chunk`, then concatenate (X_processed_chunk, y_chunk)
         X_chunk = chunk_clean.drop("fare_amount", axis=1)
         y_chunk = chunk_clean[["fare_amount"]]
         X_processed_chunk = preprocess_features(X_chunk)
@@ -168,8 +168,8 @@ def preprocess(min_date: str = '2009-01-01', max_date: str = '2015-01-01') -> No
         chunk_processed = pd.DataFrame(np.concatenate((X_processed_chunk, y_chunk), axis=1))
 
         # Save and append the processed chunk to a local CSV at "data_processed_path"
-        # 🎯 HINT: df.to_csv(mode=...)
-        # 🎯 HINT: we want a CSV with neither index nor headers (they'd be meaningless)
+        #  HINT: df.to_csv(mode=...)
+        #  HINT: we want a CSV with neither index nor headers (they'd be meaningless)
         chunk_processed.to_csv(
             data_processed_path,
             mode="w" if chunk_id==0 else "a",
@@ -178,8 +178,8 @@ def preprocess(min_date: str = '2009-01-01', max_date: str = '2015-01-01') -> No
         )
 
         # Save and append the raw chunk `if not data_query_cache_exists`
-        # 🎯 HINT: we want a CSV with headers this time
-        # 🎯 HINT: only the first chunk should store headers
+        #  HINT: we want a CSV with headers this time
+        #  HINT: only the first chunk should store headers
         if not data_query_cache_exists:
             chunk.to_csv(
                 data_query_cache_path,
@@ -188,8 +188,8 @@ def preprocess(min_date: str = '2009-01-01', max_date: str = '2015-01-01') -> No
                 index=False
             )
 
-    print(f"✅ data query saved as {data_query_cache_path}")
-    print("✅ preprocess() done")
+    print(f" data query saved as {data_query_cache_path}")
+    print(" preprocess() done")
 
 
 def train(min_date:str = '2009-01-01', max_date:str = '2015-01-01') -> None:
@@ -201,7 +201,7 @@ def train(min_date:str = '2009-01-01', max_date:str = '2015-01-01') -> None:
     - Saving validation metrics at each chunk, and final model weights on the local disk
     """
 
-    print(Fore.MAGENTA + "\n ⭐️ Use case: train in batches" + Style.RESET_ALL)
+    print(Fore.MAGENTA + "\n  Use case: train in batches" + Style.RESET_ALL)
 
     data_processed_path = Path(LOCAL_DATA_PATH).joinpath("processed", f"processed_{min_date}_{max_date}_{DATA_SIZE}.csv")
     model = None
@@ -266,16 +266,16 @@ def train(min_date:str = '2009-01-01', max_date:str = '2015-01-01') -> None:
         chunk_size=CHUNK_SIZE
     )
 
-    print(f"✅ Trained with MAE: {round(val_mae, 2)}")
+    print(f" Trained with MAE: {round(val_mae, 2)}")
 
     # Save results & model
     save_results(params=params, metrics=dict(mae=val_mae))
     save_model(model=model)
 
-    print("✅ train() done")
+    print(" train() done")
 
 def pred(X_pred: pd.DataFrame = None) -> np.ndarray:
-    print(Fore.MAGENTA + "\n ⭐️ Use case: pred" + Style.RESET_ALL)
+    print(Fore.MAGENTA + "\n  Use case: pred" + Style.RESET_ALL)
 
     if X_pred is None:
         X_pred = pd.DataFrame(dict(
@@ -291,7 +291,7 @@ def pred(X_pred: pd.DataFrame = None) -> np.ndarray:
     X_processed = preprocess_features(X_pred)
     y_pred = model.predict(X_processed)
 
-    print(f"✅ pred() done")
+    print(f" pred() done")
 
     return y_pred
 

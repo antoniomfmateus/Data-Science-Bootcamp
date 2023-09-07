@@ -13,7 +13,7 @@ from keras import Model, Sequential, layers, regularizers, optimizers
 from keras.callbacks import EarlyStopping
 
 end = time.perf_counter()
-print(f"\n✅ TensorFlow loaded ({round(end - start, 2)}s)")
+print(f"\n TensorFlow loaded ({round(end - start, 2)}s)")
 
 
 
@@ -33,7 +33,7 @@ def initialize_model(input_shape: tuple) -> Model:
     model.add(layers.Dropout(rate=0.1))
     model.add(layers.Dense(1, activation="linear"))
 
-    print("✅ Model initialized")
+    print(" Model initialized")
 
     return model
 
@@ -45,7 +45,7 @@ def compile_model(model: Model, learning_rate=0.0005) -> Model:
     optimizer = optimizers.Adam(learning_rate=learning_rate)
     model.compile(loss="mean_squared_error", optimizer=optimizer, metrics=["mae"])
 
-    print("✅ Model compiled")
+    print(" Model compiled")
 
     return model
 
@@ -81,7 +81,7 @@ def train_model(
         verbose=0
     )
 
-    print(f"✅ Model trained on {len(X)} rows with min val MAE: {round(np.min(history.history['val_mae']), 2)}")
+    print(f" Model trained on {len(X)} rows with min val MAE: {round(np.min(history.history['val_mae']), 2)}")
 
     return model, history
 
@@ -114,6 +114,6 @@ def evaluate_model(
     loss = metrics["loss"]
     mae = metrics["mae"]
 
-    print(f"✅ Model evaluated, MAE: {round(mae, 2)}")
+    print(f" Model evaluated, MAE: {round(mae, 2)}")
 
     return metrics

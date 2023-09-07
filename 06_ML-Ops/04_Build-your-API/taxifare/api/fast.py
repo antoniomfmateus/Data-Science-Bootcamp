@@ -17,7 +17,7 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
-# 💡 Preload the model to accelerate the predictions
+#  Preload the model to accelerate the predictions
 # We want to avoid loading the heavy Deep Learning model from MLflow at each `get("/predict")`
 # The trick is to load the model in memory when the Uvicorn server starts
 # and then store the model in an `app.state.model` global variable, accessible across all routes!
@@ -40,7 +40,7 @@ def predict(
     Assumes `pickup_datetime` implicitly refers to the "US/Eastern" timezone (as any user in New York City would naturally write)
     """
 
-    # 💡 Optional trick instead of writing each column name manually:
+    #  Optional trick instead of writing each column name manually:
     # locals() gets us all of our arguments back as a dictionary
     # https://docs.python.org/3/library/functions.html#locals
     X_pred = pd.DataFrame(locals(), index=[0])
@@ -54,7 +54,7 @@ def predict(
     X_processed = preprocess_features(X_pred)
     y_pred = model.predict(X_processed)
 
-    # ⚠️ fastapi only accepts simple Python data types as a return value
+    #  fastapi only accepts simple Python data types as a return value
     # among them dict, list, str, int, float, bool
     # in order to be able to convert the api response to JSON
     return dict(fare_amount=float(y_pred))

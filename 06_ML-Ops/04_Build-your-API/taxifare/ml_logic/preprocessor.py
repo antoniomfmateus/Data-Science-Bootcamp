@@ -103,6 +103,6 @@ def preprocess_features(X: pd.DataFrame) -> np.ndarray:
     preprocessor = create_sklearn_preprocessor()
     X_processed = preprocessor.fit_transform(X)
 
-    print("✅ X_processed, with shape", X_processed.shape)
+    print(" X_processed, with shape", X_processed.shape)
 
     return X_processed

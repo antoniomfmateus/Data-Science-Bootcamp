@@ -1,4 +1,4 @@
-# ####### 👇 SIMPLE SOLUTION (x86 and M1) 👇 ########
+# #######  SIMPLE SOLUTION (x86 and M1)  ########
 # FROM python:3.8.12-buster
 
 # WORKDIR /prod
@@ -15,7 +15,7 @@
 
 # CMD uvicorn taxifare.api.fast:app --host 0.0.0.0 --port $PORT
 
-####### 👇 OPTIMIZED SOLUTION (x86)👇 #######
+#######  OPTIMIZED SOLUTION (x86) #######
 
 # tensorflow base-images are optimized: lighter than python-buster + pip install tensorflow
 FROM tensorflow/tensorflow:2.10.0

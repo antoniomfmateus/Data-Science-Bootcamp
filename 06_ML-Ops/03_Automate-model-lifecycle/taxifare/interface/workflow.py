@@ -36,11 +36,11 @@ def notify(old_mae, new_mae):
     author = 'krokrob'
 
     if new_mae < old_mae and new_mae < 2.5:
-        content = f"🚀 New model replacing old in production with MAE: {new_mae} the Old MAE was: {old_mae}"
+        content = f" New model replacing old in production with MAE: {new_mae} the Old MAE was: {old_mae}"
     elif old_mae < 2.5:
-        content = f"✅ Old model still good enough: Old MAE: {old_mae} - New MAE: {new_mae}"
+        content = f" Old model still good enough: Old MAE: {old_mae} - New MAE: {new_mae}"
     else:
-        content = f"🚨 No model good enough: Old MAE: {old_mae} - New MAE: {new_mae}"
+        content = f" No model good enough: Old MAE: {old_mae} - New MAE: {new_mae}"
 
     data = dict(author=author, content=content)
 
@@ -71,10 +71,10 @@ def train_flow():
     new_mae = new_mae.result()
 
     if new_mae < old_mae:
-        print(f"🚀 New model replacing old in production with MAE: {new_mae} the Old MAE was: {old_mae}")
+        print(f" New model replacing old in production with MAE: {new_mae} the Old MAE was: {old_mae}")
         transition_model.submit(current_stage="Staging", new_stage="Production")
     else:
-        print(f"🚀 Old model kept in place with MAE: {old_mae}. The new MAE was: {new_mae}")
+        print(f" Old model kept in place with MAE: {old_mae}. The new MAE was: {new_mae}")
 
     notify.submit(old_mae, new_mae)
 
